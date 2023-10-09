@@ -1,4 +1,9 @@
 <script setup>
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 defineProps(["message"]);
 </script>
 
@@ -23,7 +28,7 @@ defineProps(["message"]);
                 <div>
                     <span class="text-gray-800">{{ message.user.name }}</span>
                     <small class="ml-2 text-sm text-gray-600">{{
-                        new Date(message.created_at).toLocaleString()
+                        dayjs(message.created_at).fromNow()
                     }}</small>
                 </div>
             </div>
