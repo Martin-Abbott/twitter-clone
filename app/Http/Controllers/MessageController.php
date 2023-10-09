@@ -61,9 +61,17 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Message $message): RedirectResponse
     {
-        //
+        $this->authorize('update', $message);
+
+        $validated = $request->validate([
+            "message" => "required|string|max:255"
+        ]);
+
+        $message->update($validated);
+
+        return redirect(route('messages.index'));
     }
 
     /**
