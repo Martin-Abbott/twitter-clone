@@ -1,8 +1,11 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Message from "@/Components/Message.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm, Head } from "@inertiajs/vue3";
+
+defineProps(["messages"]);
 
 const form = useForm({
     message: "",
@@ -29,6 +32,13 @@ const form = useForm({
                 <InputError :message="form.errors.message" class="mt-2" />
                 <PrimaryButton class="mt-4">Post!</PrimaryButton>
             </form>
+            <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
+                <Message
+                    v-for="message in messages"
+                    :key="message.id"
+                    :message="message"
+                />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>
