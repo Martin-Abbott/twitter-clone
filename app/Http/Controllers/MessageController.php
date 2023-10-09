@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class MessageController extends Controller
 {
@@ -13,7 +15,9 @@ class MessageController extends Controller
      */
     public function index(): Response
     {
-        return response("Hello World");
+        return Inertia::render("Messages/Index", [
+            //
+        ]);
     }
 
     /**
@@ -27,9 +31,15 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            "message" => "required|string|max:255"
+        ]);
+
+        $request->user()->messages()->create($validated);
+
+        return redirect(route("messages.index"));
     }
 
     /**
